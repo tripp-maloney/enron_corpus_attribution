@@ -302,7 +302,6 @@ def length_analysis(lines):
     # check accuracy
     nb_acc = accuracy_scorer(nb_predictions, test[1])
     nb_pct = "%.3f" % (nb_acc / len(test[1]) * 100)
-    print(f'{nb_acc} of {len(test[1])}, {nb_pct}% correct\n')
 
     return zr_pct, nb_pct
 
@@ -354,7 +353,6 @@ def pos_freqs(lines):
     # check accuracy
     nb_acc = accuracy_scorer(nb_predictions, test[1])
     nb_pct = "%.3f" % (nb_acc / len(test[1]) * 100)
-    print(f'{nb_acc} of {len(test[1])}, {nb_pct}% correct\n')
 
     return zr_pct, nb_pct
 
@@ -413,53 +411,7 @@ def bi_grams(lines, bigrams_list="top_100_bigrams.tsv"):
     return zr_pct, nb_pct
 
 
-def submain1(path, fwlist = 'ewl_function_words.txt', outfile='a_fwa_acc.tsv'):
-    authors, emails, all_texts = load_texts(path)
-    top2, top5, top10, top50 = narrow_scope(authors, all_texts)
-    corpus_slices = [top2, top5, top10, top50, all_texts]
-    names = ["2", "5", "10", "50", "149"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = nb_from_list(corpus_slices[i], fwlist)
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-def submain2(path, punctlist = 'punct_list.txt', outfile = 'a_punct_acc.tsv'):
-    authors, emails, all_texts = load_texts(path)
-    top2, top5, top10, top50 = narrow_scope(authors, all_texts)
-    corpus_slices = [top2, top5, top10, top50, all_texts]
-    names = ["2", "5", "10", "50", "149"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = nb_from_list(corpus_slices[i], punctlist)
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-def submain3(path, outfile = "a_length_acc.tsv"):
-    authors, emails, all_texts = load_texts(path)
-    top2, top5, top10, top50 = narrow_scope(authors, all_texts)
-    corpus_slices = [top2, top5, top10, top50, all_texts]
-    names = ["2", "5", "10", "50", "149"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = length_analysis(corpus_slices[i])
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain4(path, outfile = "a_pos_acc.tsv"):
-    authors, emails, all_texts = load_texts(path)
-    top2, top5, top10, top50 = narrow_scope(authors, all_texts)
-    corpus_slices = [top2, top5, top10, top50, all_texts]
-    names = ["2", "5", "10", "50", "149"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = pos_freqs(corpus_slices[i])
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain5(path, outfile="a_bigram_acc.tsv"):
+def submain5(path, outfile="bigram_out.tsv"):
     authors, emails, all_texts = load_texts(path)
     top2, top5, top10, top50 = narrow_scope(authors, all_texts)
     corpus_slices = [top2, top5, top10, top50, all_texts]
@@ -471,55 +423,7 @@ def submain5(path, outfile="a_bigram_acc.tsv"):
             out.write(f"{names[i]}\t{zr}\t{nb}\n")
 
 
-def submain6(path, fwlist='ewl_function_words.txt', outfile='k_fwa_acc.tsv'):
-    authors, emails, all_texts = load_texts(path)
-    n2, n5, n15, n25, n35 = narrow_thousands(authors, all_texts)
-    corpus_slices = [n2, n5, n15, n25, n35]
-    names = ["2", "5",  "15", "25", "35"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = nb_from_list(corpus_slices[i], fwlist)
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain7(path, punctlist='punct_list.txt', outfile='k_punct_acc.tsv'):
-    authors, emails, all_texts = load_texts(path)
-    n2, n5, n15, n25, n35 = narrow_thousands(authors, all_texts)
-    corpus_slices = [n2, n5, n15, n25, n35]
-    names = ["2", "5",  "15", "25", "35"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = nb_from_list(corpus_slices[i], punctlist)
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain8(path, outfile="k_length_acc.tsv"):
-    authors, emails, all_texts = load_texts(path)
-    n2, n5, n15, n25, n35 = narrow_thousands(authors, all_texts)
-    corpus_slices = [n2, n5, n15, n25, n35]
-    names = ["2", "5",  "15", "25", "35"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = length_analysis(corpus_slices[i])
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain9(path, outfile="k_pos_acc.tsv"):
-    authors, emails, all_texts = load_texts(path)
-    n2, n5, n15, n25, n35 = narrow_thousands(authors, all_texts)
-    corpus_slices = [n2, n5, n15, n25, n35]
-    names = ["2", "5", "15", "25", "35"]
-
-    for i in range(len(corpus_slices)):
-        zr, nb = pos_freqs(corpus_slices[i])
-        with open(outfile, 'a', encoding='utf-8') as out:
-            out.write(f"{names[i]}\t{zr}\t{nb}\n")
-
-
-def submain10(path, outfile="k_bigram_acc.tsv"):
+def submain10(path, outfile="bigram_k.tsv"):
     authors, emails, all_texts = load_texts(path)
     n2, n5, n15, n25, n35 = narrow_thousands(authors, all_texts)
     corpus_slices = [n2, n5, n15, n25, n35]
@@ -530,26 +434,12 @@ def submain10(path, outfile="k_bigram_acc.tsv"):
         with open(outfile, 'a', encoding='utf-8') as out:
             out.write(f"{names[i]}\t{zr}\t{nb}\n")
 
-
-def merger(path):
-    submain1(path)
-    submain2(path)
-    submain3(path)
-    submain4(path)
-    submain5(path)
-
-def merger2(path):
-    submain6(path)
-    submain7(path)
-    submain8(path)
-    submain9(path)
-    submain10(path)
 
 def main(path1,path2):
     #   iterate through each submain function 10 times, acquire average results for plotting
-    for _ in range(5):
-        merger2(path2)
-        merger(path1)
+    for _ in range(1):
+        submain5(path1)
+        submain10(path2)
         runtime = time() - start
         print(f"Runtime: {int(runtime // 60)} min {'%.2f' % (runtime % 60)} secs")
 

@@ -3,18 +3,18 @@ import re
 email_list = "all_emails_dirty.tsv"
 
 
-def forward_scrape(line):
-    scraped = re.sub(r"---------------------- Forwarded by .*", "", line)
+def xml_scrape(line):
+    scraped = re.sub(r"<.*>", "", line)
     return scraped
 
 
-def orig_scrape(line):
-    scraped = re.sub(r"-----Original Message-----.*", "", line)
+def dash_scrape(line):
+    scraped = re.sub(r"----.*", "", line)
     return scraped
 
 
 def from_scrape(line):
-    scraped = re.sub(r" {3}From:", "", line)
+    scraped = re.sub(r"From:.*", "", line)
     return scraped
 
 
@@ -23,10 +23,29 @@ def spaces_scrape(line):
     return scraped
 
 
+def outlook_scrape(line):
+    scraped = re.sub(r"Outlook Migration Team@ENRON.*", "", line)
+    return scraped
+
+
+def enron_sign_scrape(line):
+    scraped = re.sub(r" {4}Enron North America Corp.*", "", line)
+    return scraped
+
+
+def to_scrape(line):
+    scraped = re.sub(r"To:.*", "", line)
+    return scraped
+
+
 def scrape(line):
-    round1 = forward_scrape(line)
-    round2 = orig_scrape(round1)
-    scraped = spaces_scrape(round2)
+    round1 = xml_scrape(line)
+    round2 = dash_scrape(round1)
+    round3 = from_scrape(round2)
+    round4 = outlook_scrape(round3)
+    round5 = enron_sign_scrape(round4)
+    round6 = to_scrape(round5)
+    scraped = spaces_scrape(round6)
     return scraped
 
 
